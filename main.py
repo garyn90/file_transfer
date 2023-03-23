@@ -2,6 +2,7 @@ import socket
 from server import server
 from client import client
 
+# automatically nab the IP address
 IP = socket.gethostbyname(socket.gethostname())
 print(type(IP))
 print(IP)
@@ -15,14 +16,18 @@ this is a simple CLI program for personal use. the goal is to have a quick metho
 to handle file transfers concurrently. system agnoticism is ideal, since you are using a unix laptop and a windows pc. 
 """
 
-user_inp= input('File transfer program initiated.\nPress 1 for CLIENT, or 2 for SERVER: \n')
+user_inp= input('File transfer program initiated.\nPress 1 for CLIENT, or 2 for SERVER. Or Q to quit: \n')
 
 if user_inp == '1':
     print('You have chosen CLIENT...')
 
     """ put client code here. remember that client will be able to send files only, hence the option to switch """
+    client(IP, PORT, ADDR, SIZE, FORMAT)
 
 if user_inp == '2':
     print('You have chosen SERVER...')
     """ put server code here. server option will receive files. """
     server(IP, PORT, ADDR, SIZE, FORMAT)
+
+if user_inp =='q' or 'Q':
+    quit()

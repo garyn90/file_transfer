@@ -7,16 +7,17 @@ this will serve as the code that handles the client (the sender).
 def client(IP, PORT, ADDR, FORMAT, SIZE):
     """ Staring a TCP socket. """
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    endpoint = input('Please enter the server\'s IP address.')
+    endpoint = input('Please enter the server\'s IP address.\n')
 
     """ attempt to connect to the server. """ 
     try:
         client.connect(endpoint)
     except:
-        print("Error connecting to server. Please try again")
+        print("Error connecting to server. Please try again.")
 
     """ Opening and reading the file data. """
-    file = open("data/yt.txt", "r")
+    file_input = input("Please enter the filepath of desired file.")
+    file = open(file_input, "r")
     data = file.read()
  
     """ Sending the filename to the server. """
