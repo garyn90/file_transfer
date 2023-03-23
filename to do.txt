@@ -1,7 +1,0 @@
-- have client type in IP of server
--have client type in path to file 
-
--eventually, use threads to along multiple file transfers at once 
-
-
--offer the choice of being server OR client 
