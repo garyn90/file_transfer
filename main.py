@@ -20,7 +20,6 @@ user_inp= input('File transfer program initiated.\nPress 1 for CLIENT, or 2 for 
 
 if user_inp == '1':
     print('You have chosen CLIENT...')
-
     """ put client code here. remember that client will be able to send files only, hence the option to switch """
     client(IP, PORT, ADDR, SIZE, FORMAT)
 

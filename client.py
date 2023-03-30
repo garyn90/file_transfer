@@ -20,15 +20,13 @@ def client(IP, PORT, ADDR, FORMAT, SIZE):
     file = open(file_input, "r")
     data = file.read()
  
-    """ Sending the filename to the server. """
-    client.send(data.encode(FORMAT))
-    msg = client.recv(SIZE).decode(FORMAT)
-    print(f"[SERVER]: {msg}")
+    # """ Sending the filename to the server. """
+    # client.send(data.encode())
+    # msg = client.recv(SIZE).decode()
+    # print(f"[SERVER]: {msg}")
  
     """ Sending the file data to the server. """
-    client.send(data.encode(FORMAT))
-    msg = client.recv(SIZE).decode(FORMAT)
-    print(f"[SERVER]: {msg}")
+    client.send(data.encode())
  
     """ Closing the file. """
     file.close()
