@@ -1,4 +1,5 @@
 import socket
+import threading
 
 """
 this will handle the endpoint listening to receive files.
@@ -36,3 +37,30 @@ def server(IP, PORT, ADDR, SIZE, FORMAT):
         # close the socket 
         conn.close()
         print('Connection ended.')
+
+
+class Server():
+    def __init__(self, IP, PORT, ADDR, SIZE, FORMAT):
+        # attributes to be passed in by computer
+        self.IP = IP
+        self.PORT = PORT 
+        self.ADDR = ADDR 
+        self.FORMAT = FORMAT 
+        
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        def listen(self):
+            self.sock.listen(5)
+            while True:
+                client, address = self.socket.accept()
+                threading.Thread(target=self.client_connection, args=(client, address)).start()
+        
+        def client_connection(self, client, address):
+            size = 1024
+            client.send('Message from server: Connection accepted')
+            while True: 
+                try:
+                    data = self.socket.rev(size)
+                except Exception as e:
+                    client.send(f'Error receiving file, status: {e}')
+                    

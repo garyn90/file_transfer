@@ -1,5 +1,5 @@
 import socket
-from server import server
+from server import Server
 from client import client
 
 # automatically nab the IP address
@@ -27,7 +27,7 @@ if user_inp == '1':
 if user_inp == '2':
     print('You have chosen SERVER...')
     """ put server code here. server option will receive files. """
-    server(IP, PORT, ADDR, SIZE, FORMAT)
+    Server(IP, PORT, ADDR, SIZE, FORMAT).listen()
 
 if user_inp =='q' or 'Q':
     quit()
