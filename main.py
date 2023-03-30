@@ -2,10 +2,8 @@ import socket
 from server import Server
 from client import client
 
-# automatically nab the IP address
+# set of configurations that are hosted here, to be device agnostic
 IP = socket.gethostbyname(socket.gethostname())
-print(type(IP))
-print(IP)
 PORT = 8000 
 ADDR = (IP, PORT)
 SIZE = 1024

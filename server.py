@@ -46,7 +46,7 @@ class Server():
         self.PORT = PORT 
         self.ADDR = ADDR 
         self.FORMAT = FORMAT 
-        self.DIRECTORY = None 
+        self.DIRECTORY = '' 
         
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind(self.ADDR)
@@ -54,23 +54,24 @@ class Server():
     def listen(self):
         print('Server has started.')
         print(f'Your IP Address is: { self.IP }')
-        self.DIRECTORY = input('Please enter the directory to receive files.')
+        self.DIRECTORY = input('Please enter the directory to receive files.\n')
         print('Listening for connections.')
         self.socket.listen(5)
         while True:
-            client, address = self.socket.accept()
-            threading.Thread(target=self.client_connection, args=(client, address)).start()
+            conn, address = self.socket.accept()
+            threading.Thread(target=self.client_connection, args=(conn, address)).start()
     
-    def client_connection(self, client, address):
+    def client_connection(self, conn, address):
         size = 1024
-        client.send(b'Message from server: Connection accepted')
+        conn.send(b'Message from server: Connection accepted')
         while True: 
             try:
-                data = self.socket.rev(size)
+                data = conn.recv(size)
                 print('Receiving file data...')
                 file = open(f'{self.DIRECTORY}/newfile', 'w')
                 file.write(data)
             except Exception as e:
-                client.send(b'Something went wrong. Try again.')
-                client.close()
+                conn.send(b'Something went wrong. Try again.')
+                print(f'Error: {e}')
+                conn.close()
                 return False                     
