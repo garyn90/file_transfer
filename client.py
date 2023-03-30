@@ -12,12 +12,11 @@ def client(IP, PORT, ADDR, FORMAT, SIZE):
     """ attempt to connect to the server. """ 
     try:
         client.connect((server_ip, PORT))
-        print("Connection established with server.")
     except Exception as e:
         print(f"Error connecting to server. Status code: {e}. Please try again.")
 
     """ Opening and reading the file data. """
-    file_input = input("Please enter the absolute path of the file to send.")
+    file_input = input("Please enter the absolute path of the file to send.\n")
     file = open(file_input, "r")
     data = file.read()
  
