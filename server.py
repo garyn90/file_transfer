@@ -59,6 +59,7 @@ class Server():
         self.socket.listen(5)
         while True:
             conn, address = self.socket.accept()
+            print('New connection established.')
             threading.Thread(target=self.client_connection, args=(conn, address)).start()
     
     def client_connection(self, conn, address):
