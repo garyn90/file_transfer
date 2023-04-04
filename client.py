@@ -5,13 +5,6 @@ from os import path
 this will serve as the code that handles the client (the sender). 
 """
 
-# set of configurations that are hosted here, to be device agnostic
-IP = socket.gethostbyname(socket.gethostname())
-PORT = 8000 
-ADDR = (IP, PORT)
-SIZE = 1024
-FORMAT = 'utf-8'
-
 def client(IP, PORT, ADDR, FORMAT, SIZE):
 
     # remember to delete this 
@@ -55,7 +48,8 @@ class Client():
         self.PORT = PORT 
         self.ADDR = ADDR 
         self.FORMAT = FORMAT 
-        self.DIRECTORY = '' 
+        self.DIRECTORY = ''
+        self.SIZE = SIZE  
         
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind(self.ADDR)
@@ -63,20 +57,28 @@ class Client():
     def connect(self):
         server_ip = input('Please enter the address of the server to connect to.')
         try:
-            self.socket.connect((server_ip, self.PORT))
-            self.file_prep()
+            client = self.socket.connect((server_ip, self.PORT))
+            file_input = input('Please enter the absolute path to the desired file to send, or press \'CTRL-C\' to quit.\n')
+            if self.file_check(file_input):
+                with open(file_input, 'rb'):
+                    send_file = file_input.read()
+                    client.sendall(send_file.encode())
+                    print('File has been sent.')
+
         except Exception as e:
             print(f"Error connecting to server. Status code: {e}. Please try again.")
 
-    def file_prep(self):
+    # enter a loop to check if the file user enters is true
+    def file_check(self, file_input):
         while True:
-            file_input = input('Please enter the absolute path to the desired file to send, or press \'CTRL-C\' to quit.\n')
             if not path.isfile(file_input):
                 continue
             else:
                 print("FILE HAS BEEN DUMPED INTO LOCAL MEMORY")
                 break
-        return open(file_input, 'rb')
+        return file_input
+    
+    def send_file(self, conn, file):
+        while True:
+            conn.send(file)
 
-cli = Client(IP, PORT, ADDR, SIZE, FORMAT)
-cli.file_prep()
