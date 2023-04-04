@@ -51,34 +51,31 @@ class Client():
         self.DIRECTORY = ''
         self.SIZE = SIZE  
         
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.bind(self.ADDR)
+        #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def connect(self):
-        server_ip = input('Please enter the address of the server to connect to.')
+        server_ip = input('Please enter the address of the server to connect to.\n')
         try:
-            client = self.socket.connect((server_ip, self.PORT))
-            file_input = input('Please enter the absolute path to the desired file to send, or press \'CTRL-C\' to quit.\n')
-            if self.file_check(file_input):
-                with open(file_input, 'rb'):
-                    send_file = file_input.read()
-                    client.sendall(send_file.encode())
-                    print('File has been sent.')
+            conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            conn.connect((server_ip, self.PORT))
+            while True:
+                file_input = input('Please enter the absolute path to the desired file to send, or \'CTRL-C\' to quit.\n')
+                if not path.isfile(file_input):
+                    continue
+                else:
+                    print('Valid file.')
+                    break
+            with open(file_input, 'rb') as file_:
+                #send_file = file_.read()
+                conn.sendfile(file_)
+                
 
         except Exception as e:
             print(f"Error connecting to server. Status code: {e}. Please try again.")
-
-    # enter a loop to check if the file user enters is true
-    def file_check(self, file_input):
-        while True:
-            if not path.isfile(file_input):
-                continue
-            else:
-                print("FILE HAS BEEN DUMPED INTO LOCAL MEMORY")
-                break
-        return file_input
     
-    def send_file(self, conn, file):
-        while True:
-            conn.send(file)
+    # try to take the above while loop and contain the entire file sending process into a method 
+
+    # def send_file(self, conn, file):
+    #     while True:
+    #         conn.send(file)
 
