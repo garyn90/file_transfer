@@ -59,7 +59,7 @@ class Server():
         self.socket.listen(5)
         while True:
             conn, address = self.socket.accept()
-            print('New connection established.')
+            print(f'New connection established: {address}')
             threading.Thread(target=self.client_connection, args=(conn, address)).start()
     
     def client_connection(self, conn, address):
@@ -67,12 +67,15 @@ class Server():
         conn.send(b'Message from server: Connection accepted')
         while True: 
             try:
-                data = conn.recv(size)
-                print('Receiving file data...')
-                file = open(f'{self.DIRECTORY}/newfile', 'w')
-                file.write(data)
+                while True:
+                    data = conn.recv(size)
+                    print('Receiving file data...')
+                    with open(f'{self.DIRECTORY}/newfile', 'wb') as file:
+                        file.write(data)
+                    if not data:
+                        break 
             except Exception as e:
                 conn.send(b'Something went wrong. Try again.')
                 print(f'Error: {e}')
                 conn.close()
-                return False                     
+                break                    

@@ -63,12 +63,12 @@ class Client():
                 if not path.isfile(file_input):
                     continue
                 else:
-                    print('Valid file.')
-                    break
-            with open(file_input, 'rb') as file_:
-                #send_file = file_.read()
-                conn.sendfile(file_)
-                
+                    print('Valid file.')        
+                    with open(file_input, 'rb') as file_:
+                        #send_file = file_.read()
+                        conn.sendfile(file_)
+                        break 
+                    
 
         except Exception as e:
             print(f"Error connecting to server. Status code: {e}. Please try again.")
