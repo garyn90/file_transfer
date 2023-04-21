@@ -42,6 +42,7 @@ def server(IP, PORT, ADDR, SIZE, FORMAT):
 class Server():
     def __init__(self, IP, PORT, ADDR, SIZE, FORMAT):
         # attributes to be passed in by computer
+        self.BUFFER_SIZE = 4096
         self.IP = IP
         self.PORT = PORT 
         self.ADDR = ADDR 
@@ -63,19 +64,19 @@ class Server():
             threading.Thread(target=self.client_connection, args=(conn, address)).start()
     
     def client_connection(self, conn, address):
-        size = 1024
         conn.send(b'Message from server: Connection accepted')
-        while True: 
+        received = conn.recv(self.BUFFER_SIZE).decode()
+        with open(received, 'wb') as file_: 
             try:
+                print('Receiving file data...')
                 while True:
-                    data = conn.recv(size)
-                    print('Receiving file data...')
-                    with open(f'{self.DIRECTORY}/newfile', 'wb') as file:
-                        file.write(data)
-                    if not data:
+                    incoming_bytes = conn.recv(self.BUFFER_SIZE)
+                    if not incoming_bytes: 
                         break 
+                file_.write(incoming_bytes)
+                conn.close()
+
             except Exception as e:
                 conn.send(b'Something went wrong. Try again.')
                 print(f'Error: {e}')
-                conn.close()
-                break                    
+                conn.close()                   
