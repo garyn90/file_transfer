@@ -2,7 +2,7 @@ import socket
 import threading
 
 """
-this will handle the endpoint listening to receive files.
+this will handle the endpoint listening to receive files. 
 """
 
 def server(IP, PORT, ADDR, SIZE, FORMAT):
@@ -65,18 +65,17 @@ class Server():
     
     def client_connection(self, conn, address):
         conn.send(b'Message from server: Connection accepted')
-        received = conn.recv(self.BUFFER_SIZE).decode()
-        with open(received, 'wb') as file_: 
+        received_filename = conn.recv(self.BUFFER_SIZE).decode()
+        with open(received_filename, 'wb') as file_: 
             try:
                 print('Receiving file data...')
                 while True:
                     incoming_bytes = conn.recv(self.BUFFER_SIZE)
                     if not incoming_bytes: 
                         break 
-                file_.write(incoming_bytes)
+                    file_.write(incoming_bytes)
                 conn.close()
 
             except Exception as e:
-                conn.send(b'Something went wrong. Try again.')
                 print(f'Error: {e}')
                 conn.close()                   
