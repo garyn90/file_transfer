@@ -37,24 +37,19 @@ class Client():
             file_size = path.getsize(file_input)
             # then send it, remembering to encode 
             conn.send(file_name.encode())
-            #progress = tqdm.tqdm(range(file_size), f'Sending {file_name}', unit='B', unit_scale=True)
+            progress = tqdm.tqdm(range(file_size), f'Sending {file_name}', unit='B', unit_scale=True)
             with open(file_input, 'rb') as file_:
                 while True: 
                     data = file_.read(self.BUFFER_SIZE)
                     if not data:
                         break
                     conn.sendall(data)
-                    #progress.update(len(sent_bytes))
+                    progress.update(len(data))
             print('Finished sending file. Closing.')
-            #conn.close()
+            conn.close()
                     
                     
         except Exception as e:
             print(f"Error connecting to server. Status code: {e}. Please try again.")
     
-    # try to take the above while loop and contain the entire file sending process into a method 
-
-    # def send_file(self, conn, file):
-    #     while True:
-    #         conn.send(file)
 

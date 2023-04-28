@@ -56,8 +56,11 @@ class Server():
         print('Server has started.')
         print(f'Your IP Address is: { self.IP }')
         self.DIRECTORY = input('Please enter the directory to receive files.\n')
-        print('Listening for connections.')
+        print('Listening for connections. To stop listening, press Q to quit.')
         self.socket.listen(5)
+        # offer input to cleanly close the program
+        if input() == 'q':
+            quit()
         while True:
             conn, address = self.socket.accept()
             print(f'New connection established: {address}')
@@ -66,7 +69,7 @@ class Server():
     def client_connection(self, conn, address):
         conn.send(b'Message from server: Connection accepted')
         received_filename = conn.recv(self.BUFFER_SIZE).decode()
-        with open(received_filename, 'wb') as file_: 
+        with open(self.DIRECTORY + '/' + received_filename, 'wb') as file_: 
             try:
                 print('Receiving file data...')
                 while True:
@@ -74,8 +77,12 @@ class Server():
                     if not incoming_bytes: 
                         break 
                     file_.write(incoming_bytes)
+                print("File has been received.")
                 conn.close()
 
+            except ConnectionResetError:
+                print(f"Connection to {address} closed.")
+                print("Listening for connections. To stop listening, press Q to quit.")
             except Exception as e:
                 print(f'Error: {e}')
                 conn.close()                   
