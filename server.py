@@ -67,7 +67,6 @@ class Server():
             threading.Thread(target=self.client_connection, args=(conn, address)).start()
     
     def client_connection(self, conn, address):
-        conn.send(b'Message from server: Connection accepted')
         received_filename = conn.recv(self.BUFFER_SIZE).decode()
         with open(self.DIRECTORY + '/' + received_filename, 'wb') as file_: 
             try:

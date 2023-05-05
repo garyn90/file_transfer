@@ -23,6 +23,7 @@ class Client():
         try:
             conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             conn.connect((server_ip, self.PORT))
+            print(f"Connected to: {server_ip}")
             # catch user input mistake, and keep asking for a proper file input from the user, continues when it finds a file 
             while True:
                 file_input = input('Please enter the absolute path to the desired file to send, or \'CTRL-C\' to quit.\n')
