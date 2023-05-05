@@ -1,6 +1,6 @@
 import socket
 import threading
-
+from os import path 
 """
 this will handle the endpoint listening to receive files. 
 """
@@ -55,8 +55,14 @@ class Server():
     def listen(self):
         print('Server has started.')
         print(f'Your IP Address is: { self.IP }')
-        self.DIRECTORY = input('Please enter the directory to receive files.\n')
-        print('Listening for connections. To stop listening, press Q to quit.')
+        # make sure the user input actually exists 
+        while True: 
+            self.DIRECTORY = input('Please enter the directory to receive files.\n')
+            if not path.exists(self.DIRECTORY):
+                continue 
+            else:
+                break 
+        print('Listening for connections. To stop listening press Q to quit.')
         self.socket.listen(5)
         # offer input to cleanly close the program
         if input() == 'q':

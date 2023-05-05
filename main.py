@@ -2,17 +2,21 @@ import socket
 from server import Server
 from client import Client
 
-# set of configurations that are hosted here, to be device agnostic
+""" 
+this is a simple CLI program for personal use. the goal is to have a quick method to send files between the laptop and pc, 
+along with the option to introduce threads to handle multiple file transfers concurrently. 
+system agnoticism is ideal, since you are using a unix laptop and a windows pc.
+
+files will be sent over TCP stream.
+"""
+
+# set of configurations that are hosted here, which are then passed into whichever respective object the user chooses 
 IP = socket.gethostbyname(socket.gethostname())
 PORT = 8000 
 ADDR = (IP, PORT)
 SIZE = 5000000
 FORMAT = 'utf-8'
 
-""" 
-this is a simple CLI program for personal use. the goal is to have a quick method to send files between the laptop and pc, along with the option to introduce threads
-to handle file transfers concurrently. system agnoticism is ideal, since you are using a unix laptop and a windows pc. 
-"""
 
 user_inp= input('File transfer program initiated.\nPress 1 for CLIENT, or 2 for SERVER. Or Q to quit: \n')
 
