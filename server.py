@@ -47,10 +47,9 @@ class Server():
                     file_.write(incoming_bytes)
                 print("File has been received.")
                 conn.close()
-
+                print("Listening for connections...")
             except ConnectionResetError:
                 print(f"Connection to {address} closed.")
-                print("Listening for connections. To stop listening, press Q to quit.")
             except Exception as e:
                 print(f'Error: {e}')
                 conn.close()                   
